@@ -11,7 +11,6 @@ UPLOAD_DIR = Path("uploads"); UPLOAD_DIR.mkdir(exist_ok=True)
 OUTPUT_DIR = Path("outputs"); OUTPUT_DIR.mkdir(exist_ok=True)
 
 app.mount("/outputs", StaticFiles(directory="outputs"), name="outputs")
-app.mount("/static", StaticFiles(directory="static"), name="static")
 
 VOICES = {
     "vi-VN-HoaiMyNeural": "Tiếng Việt - Nữ (Hoài My · Neural)",
@@ -137,7 +136,7 @@ async def merge_audio_video(video_path: str, audio_files: list, srt_path: str, o
 
 @app.get("/")
 async def index():
-    return FileResponse("static/index.html")
+    return FileResponse("index.html")
 
 @app.get("/voices")
 async def get_voices():
@@ -179,3 +178,4 @@ async def translate_video(
     await merge_audio_video(video_path, audio_files, srt_path, output_path, job_dir)
 
     return JSONResponse({"status": "done", "file": f"/outputs/{output_filename}", "job_id": job_id})
+    
